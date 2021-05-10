@@ -2,7 +2,7 @@
 
 #### **Welcome to the Digital Foosball Age!**
 
-This is an open source program that allows you to retro fit your foosball table with a digital scoring system. This is a major DIY project that requires a large amount of preparation, tools, hardware and materials. I will be posting hardware, equipment, tutorials, walkthroughs and videos on the host [site](https://www.digitalfoosballrevolution.com) once I get it up and running. But for now, I'll provide a simple list of items needed to get up and running. You can also check out my [YouTube](https://www.youtube.com/channel/UC9bkXmpMcpCEUwjpWFhHVtw) channel to see if I've uploaded any new videos.
+This is an open source program that allows you to retro fit your foosball table with a digital scoring system. This is a major DIY project that requires a large amount of preparation, tools, hardware and materials. I will be posting hardware, equipment, tutorials, walkthroughs and videos on the host [site](https://www.digitalfoosballrevolution.com) once I get it up and running. But for now, I'll provide a simple list of items needed to get set up. You can also check out my [YouTube](https://www.youtube.com/channel/UC9bkXmpMcpCEUwjpWFhHVtw) channel to see if I've uploaded any new videos.
 
 ## **Code Options**
 
