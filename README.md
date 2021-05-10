@@ -16,6 +16,9 @@ The folder you will use from this repo is the 'direct' folder. All you need to d
 ### *SD Card: Directions*
 You will have to load the contents of the 'w_sdmount' folder to your microcontroller, then load the contents of 'sd_files' onto a microSD card. Anything over 2G should be enough (I doubt you'd need that much). I use a 256G card, only because I plan on setting up a logger in the future to keep track of bugs.
 
+#### **Pinouts**
+Pinouts are listed in the 'code.py' files in each version of code.
+
 ### **Hardware List**
 *   (1) [Adafruit Grand Central M4 Express](https://www.adafruit.com/product/4064), or an equivalent microcontroller that has 24+ pinouts (if you don't want the "special" button or audio; in which case 26+).
     *   Disclaimer: My childish friend who is allowing me to retro fit his foosball table said the only way I could do this is if I had audio and a fart button, so... the option is yours. You can just leave those pinouts disconnected, you don't have to delete any code to make it functional.
