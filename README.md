@@ -2,7 +2,7 @@
 
 #### **Welcome to the Digital Foosball Age!**
 
-This is an open source program that allows you to retro fit your foosball table with a digital scoring system. This is a major DIY project that requires a large amount of preparation, tools, hardware and materials. I will be posting hardware, equipment, tutorials, walkthroughs and videos on the host [site](https://www.digitalfoosballrevolution.com) once I get it up and running. But for now, I'll provide a simple list of items needed to get up and running. You can also check out my [YouTube](https://www.youtube.com/channel/UC9bkXmpMcpCEUwjpWFhHVtw) channel to see if I've uploaded any new videos.
+This is an open source program that allows you to retro fit your foosball table with a digital scoring system. This is a major DIY project that requires a large amount of preparation, tools, hardware and materials. I will be posting hardware, equipment, tutorials, walkthroughs and videos on the host [site](https://www.digitalfoosballrevolution.com) once I get it up and running. But for now, I'll provide a simple list of items needed to get set up. You can also check out my [YouTube](https://www.youtube.com/channel/UC9bkXmpMcpCEUwjpWFhHVtw) channel to see if I've uploaded any new videos.
 
 ## **Code Options**
 
@@ -15,6 +15,9 @@ The folder you will use from this repo is the 'direct' folder. All you need to d
 
 ### *SD Card: Directions*
 You will have to load the contents of the 'w_sdmount' folder to your microcontroller, then load the contents of 'sd_files' onto a microSD card. Anything over 2G should be enough (I doubt you'd need that much). I use a 256G card, only because I plan on setting up a logger in the future to keep track of bugs.
+
+#### **Pinouts**
+Pinouts are listed in the 'code.py' files in each version of code.
 
 ### **Hardware List**
 *   (1) [Adafruit Grand Central M4 Express](https://www.adafruit.com/product/4064), or an equivalent microcontroller that has 24+ pinouts (if you don't want the "special" button or audio; in which case 26+).
