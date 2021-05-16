@@ -33,23 +33,6 @@ def high_score_mode(increment, decrement, reset, enter, edit, home, away, home_l
 
     high_score = 10
 
-    """
-    Button Pinouts:
-        D2 = Home Goal
-        D3 = Away Goal
-        D4 = Home LED
-        D5 = Away LED
-        D6 = Increment (Black)
-        D7 = Decrement (Black)
-        D8 = Reset/Back (Red)
-        D9 = Mode/Enter (Green)
-        D10 = Edit (Yellow)
-        D11 = Start/Stop Home (Red LED)
-        D12 = Start/Stop Away (Red LED)
-        D14 = Home Goal Backup
-        D15 = Away Goal Backup
-    """
-
     home_score = away_score = player_one_wins = player_two_wins = edit_select = games_played = 0 # noqa
 
     home_goal = away_goal = home_ready = away_ready = edit_mode = game_start = False # noqa

@@ -32,22 +32,6 @@ def timed_halves_mode(increment, decrement, reset, enter, edit, home, away, home
         latch_pin=board.D28,
         output_enable_pin=board.D26)
     display = framebufferio.FramebufferDisplay(matrix, auto_refresh=False)
-    """
-    Button Pinouts:
-        D2 = Home Goal
-        D3 = Away Goal
-        D4 = Home LED
-        D5 = Away LED
-        D6 = Increment (Black)
-        D7 = Decrement (Black)
-        D8 = Reset/Back (Red)
-        D9 = Mode/Enter (Green)
-        D10 = Edit (Yellow)
-        D11 = Start/Stop Home (Red LED)
-        D12 = Start/Stop Away (Red LED)
-        D14 = Home Goal Backup
-        D15 = Away Goal Backup
-    """
 
     current_time = int(time.mktime(time.localtime()))
     half_time = int(60)

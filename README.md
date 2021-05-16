@@ -10,6 +10,8 @@ I set this up in a way that you can load the code directly on to the microcontro
 
 However, you will need to use the correct folder(s) depending on which route you take.
 
+**Before you get started** visit the [Grand Central CircuitPython Download Page](https://circuitpython.org/board/grandcentral_m4_express/) and load the downloaded file onto your microcontroller. **This is SUPER important!**
+
 ### *Direct to microcontroller: Directions*
 The folder you will use from this repo is the 'direct' folder. All you need to do is load its contents directly to your microcontroller.
 

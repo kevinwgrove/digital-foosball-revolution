@@ -74,19 +74,20 @@ Game Modes:
     3 = Timed halves w/ handicaps
 
 Button Pinouts:
-    D2 = Home Goal
-    D3 = Away Goal
-    D4 = Home LED
-    D5 = Away LED
+    D5 = Fart Button
     D6 = Increment (Black)
     D7 = Decrement (Black)
     D8 = Reset/Back (Red)
     D9 = Mode/Enter (Green)
     D10 = Edit (Yellow)
-    D11 = Start/Stop Home (Red LED)
-    D12 = Start/Stop Away (Red LED)
     D14 = Home Goal Backup
     D15 = Away Goal Backup
+    D38 = Home Goal
+    D39 = Away Goal
+    D40 = Home LED
+    D41 = Away LED
+    D42 = Start/Stop Home (Red LED)
+    D43 = Start/Stop Away (Red LED)
 
 Display Pinouts:
     A = A12
@@ -129,29 +130,30 @@ decrement = DigitalInOut(board.D7)
 decrement.direction = Direction.INPUT
 decrement.pull = Pull.UP
 
-h_led = DigitalInOut(board.D4)
+h_led = DigitalInOut(board.D40)
 h_led.direction = Direction.OUTPUT
 
-a_led = DigitalInOut(board.D5)
+a_led = DigitalInOut(board.D41)
 a_led.direction = Direction.OUTPUT
 
-start_stop_h = DigitalInOut(board.D11)
+start_stop_h = DigitalInOut(board.D42)
 start_stop_h.direction = Direction.INPUT
 start_stop_h.pull = Pull.UP
 
-start_stop_a = DigitalInOut(board.D12)
+start_stop_a = DigitalInOut(board.D43)
 start_stop_a.direction = Direction.INPUT
 start_stop_a.pull = Pull.UP
 
 # h goal sensor
-h = DigitalInOut(board.D2)
+h = DigitalInOut(board.D38)
 h.direction = Direction.INPUT
 h.pull = Pull.UP
 
 # a goal sensor
-a = DigitalInOut(board.D3)
+a = DigitalInOut(board.D39)
 a.direction = Direction.INPUT
 a.pull = Pull.UP
+fart_button = DigitalInOut(board.D5)
 
 # h goal backup sensor
 h_bu = DigitalInOut(board.D14)
@@ -163,19 +165,12 @@ a_bu = DigitalInOut(board.D15)
 a_bu.direction = Direction.INPUT
 a_bu.pull = Pull.UP
 
-# wave_file = open("goal.wav", "rb")
-# wave = WaveFile(wave_file)
-
 analog_out = AudioOut(board.A0)
 
-fart_button = DigitalInOut(board.D16)
 fart_button.direction = Direction.INPUT
 fart_button.pull = Pull.UP
 
 while True:
-    # analog_out.play(fart)
-    # while audio.playing:
-    #     pass
 
     while not mode_selected:
         display.show(g)
@@ -208,17 +203,13 @@ while True:
 
     if game_mode == 1:
         classic_mode(increment, decrement, reset, enter, edit, h, a, h_led, a_led, start_stop_h, start_stop_a, h_bu, a_bu, fart_button, analog_out) # noqa
-        print(game_mode)
         mode_selected = False
     elif game_mode == 2:
         high_score_mode(increment, decrement, reset, enter, edit, h, a, h_led, a_led, start_stop_h, start_stop_a, h_bu, a_bu, fart_button, analog_out) # noqa
-        print(game_mode)
         mode_selected = False
     elif game_mode == 3:
         timed_halves_mode(increment, decrement, reset, enter, edit, h, a, h_led, a_led, start_stop_h, start_stop_a, h_bu, a_bu, fart_button, analog_out) # noqa
-        print(game_mode)
         mode_selected = False
     elif game_mode == 4:
         ratio_halves_mode(increment, decrement, reset, enter, edit, h, a, h_led, a_led, start_stop_h, start_stop_a, h_bu, a_bu, fart_button, analog_out) # noqa
-        print(game_mode)
         mode_selected = False
