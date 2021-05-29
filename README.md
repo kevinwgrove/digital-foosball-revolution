@@ -48,7 +48,8 @@ There are 2 game modes that are included in this system:
 3. **Enter/Select** (Green)
     * Used to select the game mode. Also used to get out of "Edit Mode"
 4. **Edit Mode** (Yellow)
-    * Used to enter "Edit Mode" once game mode is selected. This allows the user to customize all parameters of "Edit Mode".
+    * Used to enter "Edit Mode" once game mode is selected. This allows the user to customize all parameters of "Edit Mode". 
+        * **Use this button to cycle through "Edit Mode" parameters**
 5. **Reset/Back** (Red)
     * Used to reset a game if a game is currently being played, or is used to exit the game mode and return to the previous screen.
 6. **Home/Away LED Button**

@@ -12,7 +12,7 @@ import random
 from audiocore import WaveFile
 
 
-def ratio_halves_mode(increment, decrement, reset, enter, edit, home, away, home_led, away_led, start_stop_home, start_stop_away, h_bu, a_bu, fart_button, analog_out): # noqa
+def timed_halves_mode(increment, decrement, reset, enter, edit, home, away, home_led, away_led, start_stop_home, start_stop_away, h_bu, a_bu, fart_button, analog_out): # noqa
     displayio.release_displays()
     matrix = rgbmatrix.RGBMatrix(
         width=64, height=32, bit_depth=1,

@@ -8,9 +8,7 @@ import terminalio
 from digitalio import DigitalInOut, Direction, Pull
 from screens.game_mode_screen import build_game_mode_screen
 from game_modes.classic import classic_mode
-from game_modes.high_score import high_score_mode
 from game_modes.timed_halves import timed_halves_mode
-from game_modes.ratio_halves import ratio_halves_mode
 from helpers.increment import inc
 from helpers.decrement import dec
 import random
