@@ -15,7 +15,7 @@ def build_classic_edit_screen(edit_select, best_of, home_score, away_score, high
         line1_message = 'Best Of'
         line2_message = str(best_of)
     elif edit_select == 3:
-        line1_message = 'High Score'
+        line1_message = 'First to'
         line2_message = str(high_score)
     else:
         line1_message = 'Home Score'
@@ -57,10 +57,10 @@ def build_timed_edit_screen(edit_select, player_one_score, player_two_score, hal
             line2_message = "Off"
     elif edit_select == 4:
         line1_message = 'P1 Ratio'
-        line2_message = str(player_one_ratio)
+        line2_message = str(player_one_ratio) + ":1"
     elif edit_select == 5:
         line1_message = 'P2 Ratio'
-        line2_message = str(player_two_ratio)
+        line2_message = str(player_two_ratio) + ":1"
     else:
         line1_message = 'Player 1'
         line2_message = str(player_one_score)

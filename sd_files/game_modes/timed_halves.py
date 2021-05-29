@@ -12,7 +12,7 @@ import random
 from audiocore import WaveFile
 
 
-def timed_halves_mode(increment, decrement, reset, enter, edit, home, away, home_led, away_led, start_stop_home, start_stop_away, h_bu, a_bu, fart_button, analog_out): # noqa
+def ratio_halves_mode(increment, decrement, reset, enter, edit, home, away, home_led, away_led, start_stop_home, start_stop_away, h_bu, a_bu, fart_button, analog_out): # noqa
     displayio.release_displays()
     matrix = rgbmatrix.RGBMatrix(
         width=64, height=32, bit_depth=1,
@@ -34,11 +34,11 @@ def timed_halves_mode(increment, decrement, reset, enter, edit, home, away, home
     display = framebufferio.FramebufferDisplay(matrix, auto_refresh=False)
 
     current_time = int(time.mktime(time.localtime()))
-    half_time = int(60)
+    half_time = int(300)
     home_goal = away_goal = edit_mode = home_ready = away_ready = extra_time = with_legs = game_start = winner = pause = False # noqa
     home_led.value = away_led.value = True
-    start_time = edit_select = player_one_total = player_two_total = home_score = away_score = 0 # noqa
-    half = leg = 1
+    start_time = edit_select = home_score = away_score = player_one_total = player_two_total = player_one_count = player_two_count = 0 # noqa
+    half = leg = player_one_ratio = player_two_ratio = 1
     golden_goal_half = half_time // 2
     seconds = [half_time]
     mins, secs = divmod(seconds[-1], 60)
@@ -74,26 +74,30 @@ def timed_halves_mode(increment, decrement, reset, enter, edit, home, away, home
             edit_mode = True
             build_display_message('Edit Mode')
             time.sleep(2)
-            timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs) # noqa
+            timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs, player_one_ratio, player_two_ratio) # noqa
 
         while edit_mode:
             display.show(timed_halves_group)
             display.refresh(minimum_frames_per_second=0)
             while not edit.value:
-                if edit_select == 3:
+                if edit_select == 5:
                     edit_select = 0
-                    timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs) # noqa
+                    timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs, player_one_ratio, player_two_ratio) # noqa
                     time.sleep(0.5)
                 else:
                     edit_select = inc(edit_select)
                     if edit_select == 2:
-                        timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs) # noqa
+                        timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs, player_one_ratio, player_two_ratio) # noqa
                     elif edit_select == 3:
-                        timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs) # noqa
+                        timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs, player_one_ratio, player_two_ratio) # noqa
+                    elif edit_select == 4:
+                        timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs, player_one_ratio, player_two_ratio) # noqa
+                    elif edit_select == 5:
+                        timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs, player_one_ratio, player_two_ratio) # noqa
                     elif edit_select == 0:
-                        timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs) # noqa
+                        timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs, player_one_ratio, player_two_ratio) # noqa
                     else:
-                        timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs) # noqa
+                        timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs, player_one_ratio, player_two_ratio) # noqa
                     time.sleep(0.5)
 
             while not enter.value:
@@ -105,7 +109,7 @@ def timed_halves_mode(increment, decrement, reset, enter, edit, home, away, home
                 while not increment.value:
                     away_score = inc(away_score)
                     player_two_total = inc(player_two_total)
-                    timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs) # noqa
+                    timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs, player_one_ratio, player_two_ratio) # noqa
                     time.sleep(0.5)
                 while not decrement.value:
                     if away_score == 0:
@@ -113,7 +117,7 @@ def timed_halves_mode(increment, decrement, reset, enter, edit, home, away, home
                     else:
                         away_score = dec(away_score)
                         player_two_total = dec(player_two_total)
-                        timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs) # noqa
+                        timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs, player_one_ratio, player_two_ratio) # noqa
                         time.sleep(0.5)
             elif edit_select == 2:
                 while not increment.value:
@@ -121,8 +125,8 @@ def timed_halves_mode(increment, decrement, reset, enter, edit, home, away, home
                     half_time_mins, half_time_secs = divmod(half_time, 60)
                     half_time_timer = '{:02d}:{:02d}'.format(half_time_mins, half_time_secs) # noqa
                     golden_goal_half = half_time // 2
-                    timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs) # noqa
-                    time.sleep(0.5)
+                    timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs, player_one_ratio, player_two_ratio) # noqa
+                    time.sleep(0.25)
                 while not decrement.value:
                     if half_time == 15:
                         break
@@ -131,18 +135,42 @@ def timed_halves_mode(increment, decrement, reset, enter, edit, home, away, home
                         half_time_mins, half_time_secs = divmod(half_time, 60)
                         half_time_timer = '{:02d}:{:02d}'.format(half_time_mins, half_time_secs) # noqa
                         golden_goal_half = half_time // 2
-                        timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs) # noqa
-                        time.sleep(0.5)
+                        timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs, player_one_ratio, player_two_ratio) # noqa
+                        time.sleep(0.25)
             elif edit_select == 3:
                 while not increment.value or not decrement.value:
                     with_legs = not with_legs
-                    timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs) # noqa
+                    timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs, player_one_ratio, player_two_ratio) # noqa
                     time.sleep(0.5)
+            elif edit_select == 4:
+                while not increment.value:
+                    player_one_ratio = inc(player_one_ratio)
+                    timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs, player_one_ratio, player_two_ratio) # noqa
+                    time.sleep(0.5)
+                while not decrement.value:
+                    if player_one_ratio == 1:
+                        break
+                    else:
+                        player_one_ratio = dec(player_one_ratio)
+                        timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs, player_one_ratio, player_two_ratio) # noqa
+                        time.sleep(0.5)
+            elif edit_select == 5:
+                while not increment.value:
+                    player_two_ratio = inc(player_two_ratio)
+                    timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs, player_one_ratio, player_two_ratio) # noqa
+                    time.sleep(0.5)
+                while not decrement.value:
+                    if player_two_ratio == 1:
+                        break
+                    else:
+                        player_two_ratio = dec(player_two_ratio)
+                        timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs, player_one_ratio, player_two_ratio) # noqa
+                        time.sleep(0.5)
             else:
                 while not increment.value:
                     home_score = inc(home_score)
                     player_one_total = inc(player_one_total)
-                    timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs) # noqa
+                    timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs, player_one_ratio, player_two_ratio) # noqa
                     time.sleep(0.5)
                 while not decrement.value:
                     if home_score == 0:
@@ -150,7 +178,7 @@ def timed_halves_mode(increment, decrement, reset, enter, edit, home, away, home
                     else:
                         home_score = dec(home_score)
                         player_one_total = dec(player_one_total)
-                        timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs) # noqa
+                        timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs, player_one_ratio, player_two_ratio) # noqa
                         time.sleep(0.5)
 
         if not start_stop_home.value:
@@ -238,11 +266,11 @@ def timed_halves_mode(increment, decrement, reset, enter, edit, home, away, home
                     while not edit.value:
                         if edit_select == 1:
                             edit_select = 0
-                            timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, timer, with_legs) # noqa
+                            timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs, player_one_ratio, player_two_ratio) # noqa
                             time.sleep(0.5)
                         else:
                             edit_select = 1
-                            timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, timer, with_legs) # noqa
+                            timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs, player_one_ratio, player_two_ratio) # noqa
                             time.sleep(0.5)
 
                     while not enter.value:
@@ -253,7 +281,7 @@ def timed_halves_mode(increment, decrement, reset, enter, edit, home, away, home
                         while not increment.value:
                             away_score = inc(away_score)
                             player_two_total = inc(player_two_total)
-                            timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, timer, with_legs) # noqa
+                            timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs, player_one_ratio, player_two_ratio) # noqa
                             time.sleep(0.5)
                         while not decrement.value:
                             if away_score == 0:
@@ -261,13 +289,13 @@ def timed_halves_mode(increment, decrement, reset, enter, edit, home, away, home
                             else:
                                 away_score = dec(away_score)
                                 player_two_total = dec(player_two_total)
-                                timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, timer, with_legs) # noqa)
+                                timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs, player_one_ratio, player_two_ratio) # noqa
                                 time.sleep(0.5)
                     else:
                         while not increment.value:
                             home_score = inc(home_score)
                             player_one_total = inc(player_one_total)
-                            timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, timer, with_legs) # noqa
+                            timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs, player_one_ratio, player_two_ratio) # noqa
                             time.sleep(0.5)
                         while not decrement.value:
                             if home_score == 0:
@@ -275,95 +303,158 @@ def timed_halves_mode(increment, decrement, reset, enter, edit, home, away, home
                             else:
                                 home_score = dec(home_score)
                                 player_one_total = dec(player_one_total)
-                                timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, timer, with_legs) # noqa
+                                timed_halves_group = build_timed_edit_screen(edit_select, home_score, away_score, half_time_timer, with_legs, player_one_ratio, player_two_ratio) # noqa
                                 time.sleep(0.5)
 
             if not home.value:
-                if half & 1 and leg == 1:  # Player One goal first half, first leg # noqa
-                    home_score = inc(home_score)
+                if half & 1 and leg == 1:  # first half
+                    if player_one_ratio > 1:
+                        player_one_count = inc(player_one_count)
+                        if player_one_count == player_one_ratio:
+                            home_score = inc(home_score)
+                            player_one_total = inc(player_one_total)
+                            player_one_count = 0
+                            timed_halves_group = build_timed_halves_score_screen(timed_halves_group, home_score, away_score, player_one_total, player_two_total) # noqa
+                    else:
+                        home_score = inc(home_score)
+                        player_one_total = inc(player_one_total)
                     if away_score - home_score >= 5:
                         analog_out.play(goal_long)
                     else:
                         analog_out.play(goal_short)
-                    player_one_total = inc(player_one_total)
                     home_goal = away_led.value = True
                     current_time = int(time.mktime(time.localtime()))
                     end_time = current_time + seconds[-1]
                     timed_halves_group = build_timed_halves_score_screen(timed_halves_group, home_score, away_score, player_one_total, player_two_total) # noqa
-                elif half & 1 and leg == 2:  # Player Two goal first half, second leg # noqa
-                    home_score = inc(home_score)
+                elif half & 1 and leg == 2:
+                    if player_two_ratio > 1:
+                        player_two_count = inc(player_two_count)
+                        if player_two_count == player_two_ratio:
+                            home_score = inc(home_score)
+                            player_two_total = inc(player_two_total)
+                            player_two_count = 0
+                            timed_halves_group = build_timed_halves_score_screen(timed_halves_group, home_score, away_score, player_one_total, player_two_total) # noqa
+                    else:
+                        home_score = inc(home_score)
+                        player_two_total = inc(player_two_total)
                     if away_score - home_score >= 5:
                         analog_out.play(goal_long)
                     else:
                         analog_out.play(goal_short)
-                    player_two_total = inc(player_two_total)
                     home_goal = away_led.value = True
                     current_time = int(time.mktime(time.localtime()))
                     end_time = current_time + seconds[-1]
                     timed_halves_group = build_timed_halves_score_screen(timed_halves_group, home_score, away_score, player_one_total, player_two_total) # noqa
-                elif not half & 1 and leg == 2:  # Player One goal second half, second leg (switched sides) # noqa
-                    away_score = inc(away_score)
+                elif not half & 1 and leg == 2:
+                    if player_one_ratio > 1:
+                        player_one_count = inc(player_one_count)
+                        if player_one_count == player_one_ratio:
+                            away_score = inc(away_score)
+                            player_one_total = inc(player_one_total)
+                            player_one_count = 0
+                            timed_halves_group = build_timed_halves_score_screen(timed_halves_group, home_score, away_score, player_one_total, player_two_total) # noqa
+                    else:
+                        away_score = inc(away_score)
+                        player_one_total = inc(player_one_total)
                     if home_score - away_score >= 5:
                         analog_out.play(goal_long)
                     else:
                         analog_out.play(goal_short)
-                    player_one_total = inc(player_one_total)
                     home_goal = away_led.value = True
                     current_time = int(time.mktime(time.localtime()))
                     end_time = current_time + seconds[-1]
                     timed_halves_group = build_timed_halves_score_screen(timed_halves_group, home_score, away_score, player_one_total, player_two_total) # noqa
-                else:  # Player Two goal second half, first leg (switched sides) # noqa
-                    away_score = inc(away_score)
+                else:  # second half
+                    if player_two_ratio > 1:
+                        player_two_count = inc(player_two_count)
+                        if player_two_count == player_two_ratio:
+                            away_score = inc(away_score)
+                            player_two_total = inc(player_two_total)
+                            player_two_count = 0
+                            timed_halves_group = build_timed_halves_score_screen(timed_halves_group, home_score, away_score, player_one_total, player_two_total) # noqa
+                    else:
+                        away_score = inc(away_score)
+                        player_two_total = inc(player_two_total)
                     if home_score - away_score >= 5:
                         analog_out.play(goal_long)
                     else:
                         analog_out.play(goal_short)
-                    player_two_total = inc(player_two_total)
                     home_goal = away_led.value = True
                     current_time = int(time.mktime(time.localtime()))
                     end_time = current_time + seconds[-1]
                     timed_halves_group = build_timed_halves_score_screen(timed_halves_group, home_score, away_score, player_one_total, player_two_total) # noqa
             elif not away.value:
-                if half & 1 and leg == 1:  # Player Two goal first half, first leg # noqa
-                    away_score = inc(away_score)
+                if half & 1 and leg == 1:  # first half
+                    if player_two_ratio > 1:
+                        player_two_count = inc(player_two_count)
+                        if player_two_count == player_two_ratio:
+                            away_score = inc(away_score)
+                            player_two_total = inc(player_two_total)
+                            player_two_count = 0
+                            timed_halves_group = build_timed_halves_score_screen(timed_halves_group, home_score, away_score, player_one_total, player_two_total) # noqa
+                    else:
+                        away_score = inc(away_score)
+                        player_two_total = inc(player_two_total)
                     if home_score - away_score >= 5:
                         analog_out.play(goal_long)
                     else:
                         analog_out.play(goal_short)
-                    player_two_total = inc(player_two_total)
                     away_goal = home_led.value = True
                     current_time = int(time.mktime(time.localtime()))
                     end_time = current_time + seconds[-1]
                     timed_halves_group = build_timed_halves_score_screen(timed_halves_group, home_score, away_score, player_one_total, player_two_total) # noqa
-                elif half & 1 and leg == 2:  # Player One goal first half, second leg # noqa
-                    away_score = inc(away_score)
+                elif half & 1 and leg == 2:
+                    if player_one_ratio > 1:
+                        player_one_count = inc(player_one_count)
+                        if player_one_count == player_one_ratio:
+                            away_score = inc(away_score)
+                            player_one_total = inc(player_one_total)
+                            player_one_count = 0
+                            timed_halves_group = build_timed_halves_score_screen(timed_halves_group, home_score, away_score, player_one_total, player_two_total) # noqa
+                    else:
+                        away_score = inc(away_score)
+                        player_one_total = inc(player_one_total)
                     if home_score - away_score >= 5:
                         analog_out.play(goal_long)
                     else:
                         analog_out.play(goal_short)
-                    player_one_total = inc(player_one_total)
                     away_goal = home_led.value = True
                     current_time = int(time.mktime(time.localtime()))
                     end_time = current_time + seconds[-1]
                     timed_halves_group = build_timed_halves_score_screen(timed_halves_group, home_score, away_score, player_one_total, player_two_total) # noqa
                 elif not half & 1 and leg == 2:
-                    home_score = inc(home_score)
+                    if player_two_ratio > 1:
+                        player_two_count = inc(player_two_count)
+                        if player_two_count == player_two_ratio:
+                            home_score = inc(home_score)
+                            player_two_total = inc(player_two_total)
+                            player_two_count = 0
+                            timed_halves_group = build_timed_halves_score_screen(timed_halves_group, home_score, away_score, player_one_total, player_two_total) # noqa
+                    else:
+                        home_score = inc(home_score)
+                        player_two_total = inc(player_two_total)
                     if away_score - home_score >= 5:
                         analog_out.play(goal_long)
                     else:
                         analog_out.play(goal_short)
-                    player_two_total = inc(player_two_total)
                     away_goal = home_led.value = True
                     current_time = int(time.mktime(time.localtime()))
                     end_time = current_time + seconds[-1]
                     timed_halves_group = build_timed_halves_score_screen(timed_halves_group, home_score, away_score, player_one_total, player_two_total) # noqa
                 else:  # second half
-                    home_score = inc(home_score)
+                    if player_one_ratio > 1:
+                        player_one_count = inc(player_one_count)
+                        if player_one_count == player_one_ratio:
+                            home_score = inc(home_score)
+                            player_one_total = inc(player_one_total)
+                            player_one_count = 0
+                    else:
+                        home_score = inc(home_score)
+                        player_one_total = inc(player_one_total)
                     if away_score - home_score >= 5:
                         analog_out.play(goal_long)
                     else:
                         analog_out.play(goal_short)
-                    player_one_total = inc(player_one_total)
                     away_goal = home_led.value = True
                     current_time = int(time.mktime(time.localtime()))
                     end_time = current_time + seconds[-1]
@@ -466,7 +557,7 @@ def timed_halves_mode(increment, decrement, reset, enter, edit, home, away, home
             if winner:
                 away_goal = home_goal = home_ready = away_ready = extra_time = game_start = False # noqa
                 home_led.value = away_led.value = True
-                home_score = away_score = player_two_total = player_one_total = start_time = 0 # noqa
+                home_score = away_score = player_two_total = player_one_total = start_time = player_one_count = player_two_count = 0 # noqa
                 half = leg = 1
                 seconds = [half_time]
                 timed_halves_group = initialize_timed_halves_screen(player_one_total, player_two_total, home_score, away_score, half_time_timer) # noqa
@@ -502,7 +593,7 @@ def timed_halves_mode(increment, decrement, reset, enter, edit, home, away, home
                     if with_legs:
                         if player_one_total == player_two_total:
                             build_display_message('First leg', 'Tie')
-                            start_time = home_score = away_score = 0
+                            start_time = home_score = away_score = player_one_count = player_two_count = 0 # noqa
                             seconds = [half_time]
                             half = 1
                             leg = 2
@@ -516,7 +607,7 @@ def timed_halves_mode(increment, decrement, reset, enter, edit, home, away, home
                             build_display_message(display_winner,  '1st Leg')
                             leg = 2
                             half = 1
-                            start_time = home_score = away_score = 0
+                            start_time = home_score = away_score = player_one_count = player_two_count = 0 # noqa
                             home_goal = away_goal = home_ready = away_ready = game_start = False # noqa
                             home_led.value = away_led.value = True
                             seconds = [half_time]
@@ -540,7 +631,7 @@ def timed_halves_mode(increment, decrement, reset, enter, edit, home, away, home
                             display_winner = "Home Team" if home_score > away_score else "Away Team" # noqa
                             display_flash_message(' ', ' ', display_winner, 'Wins!!!') # noqa
                             half = 1
-                            start_time = home_score = away_score = player_two_total = player_one_total = 0 # noqa
+                            start_time = home_score = away_score = player_one_count = player_two_count = player_two_total = player_one_total = 0 # noqa
                             home_goal = away_goal = home_ready = away_ready = game_start = False # noqa
                             home_led.value = away_led.value = True
                             seconds = [half_time]
@@ -564,7 +655,7 @@ def timed_halves_mode(increment, decrement, reset, enter, edit, home, away, home
                         display_winner = "Player 1" if player_one_total > player_two_total else "Player 2" # noqa
                         display_flash_message(' ', ' ', display_winner, 'Wins!!!') # noqa
                         half = leg = 1
-                        away_score = home_score = start_time = player_two_total = player_one_total = 0 # noqa
+                        start_time = home_score = away_score = player_one_count = player_two_count = player_two_total = player_one_total = 0 # noqa
                         home_goal = away_goal = home_ready = away_ready = game_start = False # noqa
                         home_led.value = away_led.value = True
                         seconds = [half_time]

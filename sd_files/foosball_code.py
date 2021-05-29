@@ -68,10 +68,8 @@ g.append(line2)
 
 """
 Game Modes:
-    0 = 1st to 10 goals
     1 = 1st to high_score
-    2 = Timed halves
-    3 = Timed halves w/ handicaps
+    2 = Timed halves w/ ratio options
 
 Button Pinouts:
     D5 = Fart Button
@@ -85,7 +83,7 @@ Button Pinouts:
     D38 = Home Goal
     D39 = Away Goal
     D40 = Home LED
-    D41 = Away LEDde 
+    D41 = Away LED
     D42 = Start/Stop Home (Red LED)
     D43 = Start/Stop Away (Red LED)
 
@@ -153,6 +151,7 @@ h.pull = Pull.UP
 a = DigitalInOut(board.D39)
 a.direction = Direction.INPUT
 a.pull = Pull.UP
+fart_button = DigitalInOut(board.D5)
 
 # h goal backup sensor
 h_bu = DigitalInOut(board.D14)
@@ -166,7 +165,6 @@ a_bu.pull = Pull.UP
 
 analog_out = AudioOut(board.A0)
 
-fart_button = DigitalInOut(board.D5)
 fart_button.direction = Direction.INPUT
 fart_button.pull = Pull.UP
 
@@ -176,7 +174,7 @@ while True:
         display.show(g)
         display.refresh(minimum_frames_per_second=0)
         while not increment.value:
-            if game_mode == 4:
+            if game_mode == 2:
                 game_mode = 1
                 build_game_mode_screen(g, game_mode)
                 time.sleep(0.5)
@@ -186,7 +184,7 @@ while True:
                 time.sleep(0.5)
         while not decrement.value:
             if game_mode == 1:
-                game_mode = 4
+                game_mode = 2
                 build_game_mode_screen(g, game_mode)
                 time.sleep(0.5)
             else:
@@ -205,11 +203,5 @@ while True:
         classic_mode(increment, decrement, reset, enter, edit, h, a, h_led, a_led, start_stop_h, start_stop_a, h_bu, a_bu, fart_button, analog_out) # noqa
         mode_selected = False
     elif game_mode == 2:
-        high_score_mode(increment, decrement, reset, enter, edit, h, a, h_led, a_led, start_stop_h, start_stop_a, h_bu, a_bu, fart_button, analog_out) # noqa
-        mode_selected = False
-    elif game_mode == 3:
         timed_halves_mode(increment, decrement, reset, enter, edit, h, a, h_led, a_led, start_stop_h, start_stop_a, h_bu, a_bu, fart_button, analog_out) # noqa
-        mode_selected = False
-    elif game_mode == 4:
-        ratio_halves_mode(increment, decrement, reset, enter, edit, h, a, h_led, a_led, start_stop_h, start_stop_a, h_bu, a_bu, fart_button, analog_out) # noqa
         mode_selected = False

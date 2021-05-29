@@ -68,10 +68,8 @@ g.append(line2)
 
 """
 Game Modes:
-    0 = 1st to 10 goals
     1 = 1st to high_score
-    2 = Timed halves
-    3 = Timed halves w/ handicaps
+    2 = Timed halves w/ handicaps
 
 Button Pinouts:
     D5 = Fart Button
@@ -176,7 +174,7 @@ while True:
         display.show(g)
         display.refresh(minimum_frames_per_second=0)
         while not increment.value:
-            if game_mode == 4:
+            if game_mode == 2:
                 game_mode = 1
                 build_game_mode_screen(g, game_mode)
                 time.sleep(0.5)
@@ -186,7 +184,7 @@ while True:
                 time.sleep(0.5)
         while not decrement.value:
             if game_mode == 1:
-                game_mode = 4
+                game_mode = 2
                 build_game_mode_screen(g, game_mode)
                 time.sleep(0.5)
             else:
@@ -205,11 +203,5 @@ while True:
         classic_mode(increment, decrement, reset, enter, edit, h, a, h_led, a_led, start_stop_h, start_stop_a, h_bu, a_bu, fart_button, analog_out) # noqa
         mode_selected = False
     elif game_mode == 2:
-        high_score_mode(increment, decrement, reset, enter, edit, h, a, h_led, a_led, start_stop_h, start_stop_a, h_bu, a_bu, fart_button, analog_out) # noqa
-        mode_selected = False
-    elif game_mode == 3:
         timed_halves_mode(increment, decrement, reset, enter, edit, h, a, h_led, a_led, start_stop_h, start_stop_a, h_bu, a_bu, fart_button, analog_out) # noqa
-        mode_selected = False
-    elif game_mode == 4:
-        ratio_halves_mode(increment, decrement, reset, enter, edit, h, a, h_led, a_led, start_stop_h, start_stop_a, h_bu, a_bu, fart_button, analog_out) # noqa
         mode_selected = False
