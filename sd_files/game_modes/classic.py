@@ -12,7 +12,7 @@ import random
 from audiocore import WaveFile
 
 
-def classic_mode(increment, decrement, reset, enter, edit, home, away, home_led, away_led, start_stop_home, start_stop_away, h_bu, a_bu, fart_button, analog_out): # noqa
+def classic_mode(increment, decrement, reset, enter, edit, home, away, home_led, away_led, start_stop_home, start_stop_away, h_bu, a_bu, fart_button, analog_out, h_g_dots, a_g_dots): # noqa
     displayio.release_displays()
     matrix = rgbmatrix.RGBMatrix(
         width=64, height=32, bit_depth=1,
@@ -231,6 +231,7 @@ def classic_mode(increment, decrement, reset, enter, edit, home, away, home_led,
                     analog_out.play(goal_short)
                 classic_group = build_classic_score_screen(classic_group, home_score, away_score) # noqa
                 home_goal = away_led.value = True
+                h_g_dots.fill((0, 255, 0))
             elif not away.value:
                 away_score = inc(away_score)
                 if home_score - away_score >= 5:
@@ -239,6 +240,7 @@ def classic_mode(increment, decrement, reset, enter, edit, home, away, home_led,
                     analog_out.play(goal_short)
                 classic_group = build_classic_score_screen(classic_group, home_score, away_score) # noqa
                 away_goal = home_led.value = True
+                a_g_dots.fill((0, 255, 0))
 
             if home_score == high_score or away_score == high_score:
                 analog_out.play(three_whistles)
@@ -319,10 +321,14 @@ def classic_mode(increment, decrement, reset, enter, edit, home, away, home_led,
                     while not start_stop_away.value or not a_bu.value:
                         home_goal = False
                     away_led.value = False
+                    h_g_dots.fill((255, 255, 255))
+                    a_g_dots.fill((255, 255, 255))
                     break
                 elif not reset.value:
                     while not reset.value:
                         game_start, home_ready, away_ready = False
+                        h_g_dots.fill((255, 255, 255))
+                        a_g_dots.fill((255, 255, 255))
                         home_led.value = away_led.value = True
                         home_score = away_score = games_played = 0
                         classic_group = initialize_classic_screen(home_score, away_score, player_one_wins, player_two_wins) # noqa
@@ -340,10 +346,14 @@ def classic_mode(increment, decrement, reset, enter, edit, home, away, home_led,
                     while not start_stop_home.value or not h_bu.value:
                         away_goal = False
                     home_led.value = False
+                    h_g_dots.fill((255, 255, 255))
+                    a_g_dots.fill((255, 255, 255))
                     break
                 elif not reset.value:
                     while not reset.value:
                         game_start, home_ready, away_ready = False
+                        h_g_dots.fill((255, 255, 255))
+                        a_g_dots.fill((255, 255, 255))
                         home_led.value = away_led.value = True
                         home_score = away_score = games_played = 0
                         classic_group = initialize_classic_screen(home_score, away_score, player_one_wins, player_two_wins) # noqa

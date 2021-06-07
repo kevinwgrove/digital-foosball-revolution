@@ -13,6 +13,8 @@ from helpers.increment import inc
 from helpers.decrement import dec
 import random
 from audiocore import WaveFile
+import adafruit_dotstar as dotstar
+
 
 try:
     from audioio import AudioOut
@@ -70,6 +72,10 @@ Game Modes:
     2 = Timed halves w/ handicaps
 
 Button Pinouts:
+    D1 = Home Goal LEDs CI
+    D2 = Home Goal LEDs DI
+    D3 = Away Goal LEDs CI
+    D4 = Away Goal LEDs DI
     D5 = Fart Button
     D6 = Increment (Black)
     D7 = Decrement (Black)
@@ -161,10 +167,19 @@ a_bu = DigitalInOut(board.D15)
 a_bu.direction = Direction.INPUT
 a_bu.pull = Pull.UP
 
+# home goal LEDs
+h_g_dots = dotstar.DotStar(board.D1, board.D2, 30, brightness=light_brightness)
+
+# away goal LEDs
+a_g_dots = dotstar.DotStar(board.D3, board.D4, 30, brightness=light_brightness)
+
 analog_out = AudioOut(board.A0)
 
 fart_button.direction = Direction.INPUT
 fart_button.pull = Pull.UP
+
+h_g_dots.fill((255, 255, 255))
+a_g_dots.fill((255, 255, 255))
 
 while True:
 
@@ -198,8 +213,8 @@ while True:
             analog_out.play(fart)
 
     if game_mode == 1:
-        classic_mode(increment, decrement, reset, enter, edit, h, a, h_led, a_led, start_stop_h, start_stop_a, h_bu, a_bu, fart_button, analog_out) # noqa
+        classic_mode(increment, decrement, reset, enter, edit, h, a, h_led, a_led, start_stop_h, start_stop_a, h_bu, a_bu, fart_button, analog_out, h_g_dots, a_g_dots) # noqa
         mode_selected = False
     elif game_mode == 2:
-        timed_halves_mode(increment, decrement, reset, enter, edit, h, a, h_led, a_led, start_stop_h, start_stop_a, h_bu, a_bu, fart_button, analog_out) # noqa
+        timed_halves_mode(increment, decrement, reset, enter, edit, h, a, h_led, a_led, start_stop_h, start_stop_a, h_bu, a_bu, fart_button, analog_out, h_g_dots, a_g_dots) # noqa
         mode_selected = False

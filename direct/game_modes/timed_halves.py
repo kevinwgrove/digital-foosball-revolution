@@ -12,7 +12,7 @@ import random
 from audiocore import WaveFile
 
 
-def timed_halves_mode(increment, decrement, reset, enter, edit, home, away, home_led, away_led, start_stop_home, start_stop_away, h_bu, a_bu, fart_button, analog_out): # noqa
+def timed_halves_mode(increment, decrement, reset, enter, edit, home, away, home_led, away_led, start_stop_home, start_stop_away, h_bu, a_bu, fart_button, analog_out, h_g_dots, a_g_dots): # noqa
     displayio.release_displays()
     matrix = rgbmatrix.RGBMatrix(
         width=64, height=32, bit_depth=1,
@@ -307,6 +307,7 @@ def timed_halves_mode(increment, decrement, reset, enter, edit, home, away, home
                                 time.sleep(0.5)
 
             if not home.value:
+                h_g_dots.fill((0, 255, 0))
                 if half & 1 and leg == 1:  # first half
                     if player_one_ratio > 1:
                         player_one_count = inc(player_one_count)
@@ -384,6 +385,7 @@ def timed_halves_mode(increment, decrement, reset, enter, edit, home, away, home
                     end_time = current_time + seconds[-1]
                     timed_halves_group = build_timed_halves_score_screen(timed_halves_group, home_score, away_score, player_one_total, player_two_total) # noqa
             elif not away.value:
+                a_g_dots.fill((0, 255, 0))
                 if half & 1 and leg == 1:  # first half
                     if player_two_ratio > 1:
                         player_two_count = inc(player_two_count)
@@ -471,6 +473,8 @@ def timed_halves_mode(increment, decrement, reset, enter, edit, home, away, home
                     if player_one_total > player_two_total or player_two_total > player_one_total: # noqa
                         analog_out.play(three_whistles)
                         home_led.value = away_led.value = True
+                        h_g_dots.fill((255, 255, 255))
+                        a_g_dots.fill((255, 255, 255))
                         if half == 1:
                             if with_legs:
                                 display_winner = "Player 1" if player_one_total > player_two_total else "Player 2" # noqa
@@ -496,6 +500,8 @@ def timed_halves_mode(increment, decrement, reset, enter, edit, home, away, home
                                 current_time = int(time.mktime(time.localtime())) # noqa
                             end_time = current_time + seconds[-1]
                             away_led.value = False
+                            h_g_dots.fill((255, 255, 255))
+                            a_g_dots.fill((255, 255, 255))
                             time.sleep(1)
                             break
                 if not start_stop_away.value or not a_bu.value:
@@ -504,6 +510,8 @@ def timed_halves_mode(increment, decrement, reset, enter, edit, home, away, home
                         current_time = int(time.mktime(time.localtime()))
                     end_time = current_time + seconds[-1]
                     away_led.value = False
+                    h_g_dots.fill((255, 255, 255))
+                    a_g_dots.fill((255, 255, 255))
                     time.sleep(1)
                     break
 
@@ -518,6 +526,8 @@ def timed_halves_mode(increment, decrement, reset, enter, edit, home, away, home
                     if player_one_total > player_two_total or player_two_total > player_one_total: # noqa
                         home_led.value = away_led.value = True
                         analog_out.play(three_whistles)
+                        h_g_dots.fill((255, 255, 255))
+                        a_g_dots.fill((255, 255, 255))
                         if half == 1:
                             if with_legs:
                                 display_winner = "Player 1" if player_one_total > player_two_total else "Player 2" # noqa
@@ -543,6 +553,8 @@ def timed_halves_mode(increment, decrement, reset, enter, edit, home, away, home
                                 current_time = int(time.mktime(time.localtime())) # noqa
                             end_time = current_time + seconds[-1]
                             home_led.value = False
+                            h_g_dots.fill((255, 255, 255))
+                            a_g_dots.fill((255, 255, 255))
                             time.sleep(1)
                             break
                 if not start_stop_home.value or not h_bu.value:
@@ -551,6 +563,8 @@ def timed_halves_mode(increment, decrement, reset, enter, edit, home, away, home
                         current_time = int(time.mktime(time.localtime()))
                     end_time = current_time + seconds[-1]
                     home_led.value = False
+                    h_g_dots.fill((255, 255, 255))
+                    a_g_dots.fill((255, 255, 255))
                     time.sleep(1)
                     break
 
