@@ -38,9 +38,9 @@ There are 2 game modes that are included in this system:
             - Default: 1
 
 ### **Buttons**
-![Control/Housing Unit](https://github.com/kevinwgrove/digital-foosball-revolution/blob/main/photos_videos/IMG_2234.jpeg)
+![Control/Housing Unit](https://github.com/kevinwgrove/digital-foosball-revolution/blob/main/photos_videos/IMG_2234.jpg)
 
-![Buttons](https://github.com/kevinwgrove/digital-foosball-revolution/blob/main/photos_videos/IMG_2232.jpeg)
+![Buttons](https://github.com/kevinwgrove/digital-foosball-revolution/blob/main/photos_videos/IMG_2232.jpg)
 1. **Increase/Next** (Black)
     * Used to increase amounts in the "Edit Mode" screen. It is also used to cycle through the "Game Mode" screen when the system powers on.
 2. **Decrease/Previous** (Black)
