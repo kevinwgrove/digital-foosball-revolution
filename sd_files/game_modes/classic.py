@@ -14,6 +14,7 @@ from audiocore import WaveFile
 
 def classic_mode(increment, decrement, reset, enter, edit, home, away, home_led, away_led, start_stop_home, start_stop_away, h_bu, a_bu, fart_button, analog_out, h_g_dots, a_g_dots): # noqa
     displayio.release_displays()
+    # Builds screen
     matrix = rgbmatrix.RGBMatrix(
         width=64, height=32, bit_depth=1,
         rgb_pins=[
@@ -59,12 +60,17 @@ def classic_mode(increment, decrement, reset, enter, edit, home, away, home_led,
 
     while True:
         if not fart_button.value:
+            # Fart button pressed
+            # Plays random audio file from fart folder
             fart_file = open(f'audio_files/farts/fart_{str(random.randint(1, 35))}.wav', "rb") # noqa
             fart = WaveFile(fart_file)
             analog_out.play(fart)
+        # Initializes screen
         display.show(classic_group)
         display.refresh(minimum_frames_per_second=0)
         while not edit.value:
+            # Edit button pressed
+            # Enters edit mode
             edit_select = 0
             edit_mode = True
             build_display_message('Edit Mode')
@@ -75,6 +81,8 @@ def classic_mode(increment, decrement, reset, enter, edit, home, away, home_led,
             display.show(classic_group)
             display.refresh(minimum_frames_per_second=0)
             while not edit.value:
+                # Edit button pressed
+                # Cycles through editable game parameters
                 if edit_select == 3:
                     edit_select = 0
                     classic_group = build_classic_edit_screen(edit_select, best_of, home_score, away_score, high_score) # noqa
@@ -89,19 +97,26 @@ def classic_mode(increment, decrement, reset, enter, edit, home, away, home_led,
                         classic_group = build_classic_edit_screen(edit_select, best_of, home_score, away_score, high_score) # noqa
                     time.sleep(0.5)
             while not enter.value:
+                # Enter button pressed
+                # Exits edit mode
                 edit_mode = False
                 classic_group = initialize_classic_screen(home_score, away_score, player_one_wins, player_two_wins) # noqa
                 time.sleep(0.5)
 
             if edit_select == 1:
+                # Edits away score
                 while not increment.value:
-                    if away_score == 9:
+                    # Increment button pressed
+                    # Increases away score by 1
+                    if away_score == (high_score - 1):
                         break
                     else:
                         away_score = inc(away_score)
                         classic_group = build_classic_edit_screen(edit_select, best_of, home_score, away_score, high_score) # noqa
                         time.sleep(0.5)
                 while not decrement.value:
+                    # Decrement button pressed
+                    # Decreases away score by 1
                     if away_score == 0:
                         break
                     else:
@@ -109,23 +124,33 @@ def classic_mode(increment, decrement, reset, enter, edit, home, away, home_led,
                         classic_group = build_classic_edit_screen(edit_select, best_of, home_score, away_score, high_score) # noqa
                         time.sleep(0.5)
             elif edit_select == 3:
+                # Edits high score
                 while not increment.value:
+                    # Increment button pressed
+                    # Increases high score by 1
                     high_score = inc(high_score)
                     classic_group = build_classic_edit_screen(edit_select, best_of, home_score, away_score, high_score) # noqa
                     time.sleep(0.5)
                 while not decrement.value:
-                    if high_score == 0:
+                    # Decrement button pressed
+                    # Decreases high score by 1
+                    if high_score == 1:
                         break
                     else:
                         high_score = dec(high_score)
                         classic_group = build_classic_edit_screen(edit_select, best_of, home_score, away_score, high_score) # noqa)
                         time.sleep(0.5)
             elif edit_select == 2:
+                # Edits best of
                 while not increment.value:
+                    # Increment button pressed
+                    # Increases best of by 2
                     best_of = inc(best_of, 2)
                     classic_group = build_classic_edit_screen(edit_select, best_of, home_score, away_score, high_score) # noqa
                     time.sleep(0.5)
                 while not decrement.value:
+                    # Decrement button pressed
+                    # Decreases best of by 2
                     if best_of == 1:
                         break
                     else:
@@ -133,14 +158,19 @@ def classic_mode(increment, decrement, reset, enter, edit, home, away, home_led,
                         classic_group = build_classic_edit_screen(edit_select, best_of, home_score, away_score, high_score) # noqa
                         time.sleep(0.5)
             else:
+                # Edits home score
                 while not increment.value:
-                    if home_score == 9:
+                    # Increment button pressed
+                    # Increases home score by 1
+                    if home_score == (high_score - 1):
                         break
                     else:
                         home_score = inc(home_score)
                         classic_group = build_classic_edit_screen(edit_select, best_of, home_score, away_score, high_score) # noqa
                         time.sleep(0.5)
                 while not decrement.value:
+                    # Decrement button pressed
+                    # Decreases home score by 1
                     if home_score == 0:
                         break
                     else:
@@ -149,14 +179,19 @@ def classic_mode(increment, decrement, reset, enter, edit, home, away, home_led,
                         time.sleep(0.5)
 
         if not start_stop_home.value:
+            # Home LED button pressed
+            # Home team ready for kick off
             home_led.value = False
             home_ready = True
 
         if not start_stop_away.value:
+            # Away LED button pressed
+            # Away team ready for kick off
             away_led.value = False
             away_ready = True
 
         if home_ready and away_ready:
+            # Game starts, whistle is blown, and message displays on screen
             game_start = True
             build_display_message('Kick Off')
             analog_out.play(single_whistle)
@@ -164,21 +199,28 @@ def classic_mode(increment, decrement, reset, enter, edit, home, away, home_led,
             classic_group = initialize_classic_screen(home_score, away_score, player_one_wins, player_two_wins) # noqa
 
         if not reset.value:
+            # Reset button pressed
+            # Exits classic game mode
             home_led.value = away_led.value = False
             return
 
         while game_start:
             if not fart_button.value:
+                # Fart button pressed
                 fart_file = open(f'audio_files/farts/fart_{str(random.randint(1, 35))}.wav', "rb") # noqa
                 fart = WaveFile(fart_file)
                 analog_out.play(fart)
             while not edit.value:
+                # Edit button pressed
+                # Enters edit mode during game
                 edit_mode = True
                 build_display_message('Edit Mode')
                 time.sleep(2)
 
             while edit_mode:
                 while not edit.value:
+                    # Edit button pressed
+                    # Cycles through editable parameters during game
                     if edit_select == 0:
                         edit_select = 1
                         classic_group = build_classic_edit_screen(edit_select, best_of, home_score, away_score, high_score) # noqa
@@ -188,6 +230,8 @@ def classic_mode(increment, decrement, reset, enter, edit, home, away, home_led,
                         classic_group = build_classic_edit_screen(edit_select, best_of, home_score, away_score, high_score) # noqa
                         time.sleep(0.5)
                 while not enter.value:
+                    # Enter button pressed
+                    # Exits edit mode
                     edit_mode = False
                     classic_group = initialize_classic_screen(home_score, away_score, player_one_wins, player_two_wins) # noqa
                     display.show(classic_group)
@@ -195,7 +239,7 @@ def classic_mode(increment, decrement, reset, enter, edit, home, away, home_led,
                     time.sleep(0.5)
                 if edit_select:
                     while not increment.value:
-                        if away_score == 9:
+                        if away_score == (high_score - 1):
                             break
                         else:
                             away_score = inc(away_score)
@@ -210,7 +254,7 @@ def classic_mode(increment, decrement, reset, enter, edit, home, away, home_led,
                             time.sleep(0.5)
                 else:
                     while not increment.value:
-                        if home_score == 9:
+                        if home_score == (high_score - 1):
                             break
                         else:
                             home_score = inc(home_score)
@@ -223,56 +267,50 @@ def classic_mode(increment, decrement, reset, enter, edit, home, away, home_led,
                             home_score = dec(home_score)
                             classic_group = build_classic_edit_screen(edit_select, best_of, home_score, away_score, high_score) # noqa
                             time.sleep(0.5)
+
             if not home.value:
+                # Pressure sensor triggered in away goal
+                # Home team scores
                 home_score = inc(home_score)
                 if away_score - home_score >= 5:
                     analog_out.play(goal_long)
                 else:
                     analog_out.play(goal_short)
-                classic_group = build_classic_score_screen(classic_group, home_score, away_score) # noqa
+                classic_group = build_classic_score_screen(classic_group, home_score, away_score, player_one_wins, player_two_wins) # noqa
                 home_goal = away_led.value = True
                 h_g_dots.fill((0, 255, 0))
             elif not away.value:
+                # Pressure sensor triggered in home goal
+                # Away team scores
                 away_score = inc(away_score)
                 if home_score - away_score >= 5:
                     analog_out.play(goal_long)
                 else:
                     analog_out.play(goal_short)
-                classic_group = build_classic_score_screen(classic_group, home_score, away_score) # noqa
+                classic_group = build_classic_score_screen(classic_group, home_score, away_score, player_one_wins, player_two_wins) # noqa
                 away_goal = home_led.value = True
                 a_g_dots.fill((0, 255, 0))
 
             if home_score == high_score or away_score == high_score:
+                # Determines winner of game and best of series, ends game, and resets scores # noqa
                 analog_out.play(three_whistles)
                 winner = "Home Team" if home_score == high_score else "Away Team" # noqa
                 home_goal = away_goal = home_ready = away_ready = game_start = home_led.value = away_led.value = False # noqa
                 if games_played & 1:
-                    if home_score == 10:
-                        print('line 267')
-                        print('Home: ', home_score)
-                        print('Away: ', away_score)
+                    if home_score == high_score:
                         player_two_wins = inc(player_two_wins)
                         home_led.value = away_led.value = True
                         home_score = away_score = 0
                     else:
-                        print('line 273')
-                        print('Home: ', home_score)
-                        print('Away: ', away_score)
                         player_one_wins = inc(player_one_wins)
                         home_led.value = away_led.value = True
                         home_score = away_score = 0
                 else:
-                    if home_score == 10:
-                        print('line 280')
-                        print('Home: ', home_score)
-                        print('Away: ', away_score)
+                    if home_score == high_score:
                         player_one_wins = inc(player_one_wins)
                         home_led.value = away_led.value = True
                         home_score = away_score = 0
                     else:
-                        print('line 286')
-                        print('Home: ', home_score)
-                        print('Away: ', away_score)
                         player_two_wins = inc(player_two_wins)
                         home_led.value = away_led.value = True
                         home_score = away_score = 0
@@ -303,6 +341,8 @@ def classic_mode(increment, decrement, reset, enter, edit, home, away, home_led,
                 time.sleep(0.5)
 
             if not reset.value:
+                # Reset button pressed
+                # Zeros out scores and games played, quits game
                 game_start = home_ready = away_ready = False
                 home_led.value = away_led.value = True
                 home_score = away_score = games_played = 0
@@ -312,19 +352,24 @@ def classic_mode(increment, decrement, reset, enter, edit, home, away, home_led,
 
             while home_goal:
                 if not fart_button.value:
+                    # Fart button pressed
                     fart_file = open(f'audio_files/farts/fart_{str(random.randint(1, 35))}.wav', "rb") # noqa
                     fart = WaveFile(fart_file)
                     analog_out.play(fart)
                 display.show(classic_group)
                 display.refresh(minimum_frames_per_second=0)
-                if not start_stop_away.value or not a_bu.value:
-                    while not start_stop_away.value or not a_bu.value:
+                if not start_stop_away.value:
+                    # Away LED button pressed
+                    # Game play continued
+                    while not start_stop_away.value:
                         home_goal = False
                     away_led.value = False
                     h_g_dots.fill((255, 255, 255))
                     a_g_dots.fill((255, 255, 255))
                     break
                 elif not reset.value:
+                    # Reset button pressed
+                    # Zeros out scores and games played, quits game
                     while not reset.value:
                         game_start, home_ready, away_ready = False
                         h_g_dots.fill((255, 255, 255))
@@ -337,19 +382,24 @@ def classic_mode(increment, decrement, reset, enter, edit, home, away, home_led,
 
             while away_goal:
                 if not fart_button.value:
+                    # Fart button pressed
                     fart_file = open(f'audio_files/farts/fart_{str(random.randint(1, 35))}.wav', "rb") # noqa
                     fart = WaveFile(fart_file)
                     analog_out.play(fart)
                 display.show(classic_group)
                 display.refresh(minimum_frames_per_second=0)
-                if not start_stop_home.value or not h_bu.value:
-                    while not start_stop_home.value or not h_bu.value:
+                if not start_stop_home.value:
+                    # Home LED button pressed
+                    # Game play continued
+                    while not start_stop_home.value:
                         away_goal = False
                     home_led.value = False
                     h_g_dots.fill((255, 255, 255))
                     a_g_dots.fill((255, 255, 255))
                     break
                 elif not reset.value:
+                    # Reset button pressed
+                    # Zeros out scores and games played, quits game
                     while not reset.value:
                         game_start, home_ready, away_ready = False
                         h_g_dots.fill((255, 255, 255))

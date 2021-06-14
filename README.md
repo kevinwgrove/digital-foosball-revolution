@@ -1,6 +1,6 @@
 # Digital Foosball Revolution
 
-![Foosball Table](https://images.thdstatic.com/productImages/3881eef3-44c1-4e8b-afbb-6c3e7b35366e/svn/sunnydaze-decor-foosball-tables-eg-701-64_600.jpg)
+![Foosball Table](https://github.com/kevinwgrove/digital-foosball-revolution/blob/main/photos_videos/IMG_0031.jpeg)
 
 #### **Welcome to the Digital Foosball Age!**
 
@@ -38,9 +38,9 @@ There are 2 game modes that are included in this system:
             - Default: 1
 
 ### **Buttons**
-![Control/Housing Unit](https://github.com/kevinwgrove/digital-foosball-revolution/blob/main/photos_videos/IMG_2234.jpg)
+![Control/Housing Unit](https://github.com/kevinwgrove/digital-foosball-revolution/blob/main/photos_videos/IMG_2234.jpeg)
 
-![Buttons](https://github.com/kevinwgrove/digital-foosball-revolution/blob/main/photos_videos/IMG_2232.jpg)
+![Buttons](https://github.com/kevinwgrove/digital-foosball-revolution/blob/main/photos_videos/IMG_2232.jpeg)
 1. **Increase/Next** (Black)
     * Used to increase amounts in the "Edit Mode" screen. It is also used to cycle through the "Game Mode" screen when the system powers on.
 2. **Decrease/Previous** (Black)
