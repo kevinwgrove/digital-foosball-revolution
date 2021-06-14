@@ -1,6 +1,7 @@
 # Digital Foosball Revolution
 
 ![Foosball Table](https://github.com/kevinwgrove/digital-foosball-revolution/blob/main/photos_videos/IMG_0031.jpeg)
+![Foosball Table Video](https://github.com/kevinwgrove/digital-foosball-revolution/blob/main/photos_videos/IMG_0032.MOV)
 
 #### **Welcome to the Digital Foosball Age!**
 
