@@ -1,6 +1,7 @@
 from screens.display_message import build_display_message, display_flash_message # noqa
 from helpers.increment import inc
 from helpers.decrement import dec
+from helpers.game_play import classic_goal, winner_helper
 from screens.classic_screen import build_classic_score_screen, initialize_classic_screen # noqa
 from screens.edit_screen import build_classic_edit_screen
 import board
@@ -277,9 +278,14 @@ def classic_mode(increment, decrement, reset, enter, edit, home, away, home_led,
                 else:
                     analog_out.play(goal_short)
                 classic_group = build_classic_score_screen(classic_group, home_score, away_score, player_one_wins, player_two_wins) # noqa
-                home_goal = away_led.value = True
+                display.show(classic_group)
+                display.refresh(minimum_frames_per_second=0)
                 h_g_dots.fill((0, 255, 0))
-            elif not away.value:
+                classic_goal(classic_group, home_goal, away_led, start_stop_away, a_bu, reset, display) # noqa
+                h_g_dots.fill((255, 255, 255))
+                a_g_dots.fill((255, 255, 255))
+
+            if not away.value:
                 # Pressure sensor triggered in home goal
                 # Away team scores
                 away_score = inc(away_score)
@@ -287,9 +293,27 @@ def classic_mode(increment, decrement, reset, enter, edit, home, away, home_led,
                     analog_out.play(goal_long)
                 else:
                     analog_out.play(goal_short)
+
+                if away_score == high_score:
+                    winner_helper()
+                    break
                 classic_group = build_classic_score_screen(classic_group, home_score, away_score, player_one_wins, player_two_wins) # noqa
-                away_goal = home_led.value = True
+                display.show(classic_group)
+                display.refresh(minimum_frames_per_second=0)
                 a_g_dots.fill((0, 255, 0))
+                classic_goal(classic_group, away_goal, home_led, start_stop_home, h_bu, reset, display) # noqa
+                h_g_dots.fill((255, 255, 255))
+                a_g_dots.fill((255, 255, 255))
+
+            if not reset.value:
+                # Reset button pressed
+                # Zeros out scores and games played, quits game
+                game_start = home_ready = away_ready = False
+                home_led.value = away_led.value = True
+                home_score = away_score = games_played = 0
+                classic_group = initialize_classic_screen(home_score, away_score, player_one_wins, player_two_wins) # noqa
+                time.sleep(0.5)
+                break
 
             if home_score == high_score or away_score == high_score:
                 # Determines winner of game and best of series, ends game, and resets scores # noqa
@@ -339,73 +363,3 @@ def classic_mode(increment, decrement, reset, enter, edit, home, away, home_led,
                     break
                 display_flash_message(winner, 'WINS!!!', 'Switch', 'Sides')
                 time.sleep(0.5)
-
-            if not reset.value:
-                # Reset button pressed
-                # Zeros out scores and games played, quits game
-                game_start = home_ready = away_ready = False
-                home_led.value = away_led.value = True
-                home_score = away_score = games_played = 0
-                classic_group = initialize_classic_screen(home_score, away_score, player_one_wins, player_two_wins) # noqa
-                time.sleep(0.5)
-                break
-
-            while home_goal:
-                if not fart_button.value:
-                    # Fart button pressed
-                    fart_file = open(f'audio_files/farts/fart_{str(random.randint(1, 35))}.wav', "rb") # noqa
-                    fart = WaveFile(fart_file)
-                    analog_out.play(fart)
-                display.show(classic_group)
-                display.refresh(minimum_frames_per_second=0)
-                if not start_stop_away.value:
-                    # Away LED button pressed
-                    # Game play continued
-                    while not start_stop_away.value:
-                        home_goal = False
-                    away_led.value = False
-                    h_g_dots.fill((255, 255, 255))
-                    a_g_dots.fill((255, 255, 255))
-                    break
-                elif not reset.value:
-                    # Reset button pressed
-                    # Zeros out scores and games played, quits game
-                    while not reset.value:
-                        game_start, home_ready, away_ready = False
-                        h_g_dots.fill((255, 255, 255))
-                        a_g_dots.fill((255, 255, 255))
-                        home_led.value = away_led.value = True
-                        home_score = away_score = games_played = 0
-                        classic_group = initialize_classic_screen(home_score, away_score, player_one_wins, player_two_wins) # noqa
-                        time.sleep(0.5)
-                    break
-
-            while away_goal:
-                if not fart_button.value:
-                    # Fart button pressed
-                    fart_file = open(f'audio_files/farts/fart_{str(random.randint(1, 35))}.wav', "rb") # noqa
-                    fart = WaveFile(fart_file)
-                    analog_out.play(fart)
-                display.show(classic_group)
-                display.refresh(minimum_frames_per_second=0)
-                if not start_stop_home.value:
-                    # Home LED button pressed
-                    # Game play continued
-                    while not start_stop_home.value:
-                        away_goal = False
-                    home_led.value = False
-                    h_g_dots.fill((255, 255, 255))
-                    a_g_dots.fill((255, 255, 255))
-                    break
-                elif not reset.value:
-                    # Reset button pressed
-                    # Zeros out scores and games played, quits game
-                    while not reset.value:
-                        game_start, home_ready, away_ready = False
-                        h_g_dots.fill((255, 255, 255))
-                        a_g_dots.fill((255, 255, 255))
-                        home_led.value = away_led.value = True
-                        home_score = away_score = games_played = 0
-                        classic_group = initialize_classic_screen(home_score, away_score, player_one_wins, player_two_wins) # noqa
-                        time.sleep(0.5)
-                    break

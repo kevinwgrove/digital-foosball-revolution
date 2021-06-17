@@ -83,39 +83,67 @@ You will have to load the contents of the 'w_sdmount' folder to your microcontro
 #### **Pinouts**
 Pinouts are listed in the 'code.py' files in each version of code.
 
-### **Hardware List**
-*   (1) [Adafruit Grand Central M4 Express](https://www.adafruit.com/product/4064), or an equivalent microcontroller that has 24+ pinouts (if you don't want the "special" button or audio; in which case 26+).
-    *   Disclaimer: My childish friend who is allowing me to retro fit his foosball table said the only way I could do this is if I had audio and a fart button, so... the option is yours. You can just leave those pinouts disconnected, you don't have to delete any code to make it functional.
+## **Hardware List**
+### (1) [Adafruit Grand Central M4 Express](https://www.adafruit.com/product/4064)
+![Adafruit Metro M4 Grand Central](https://cdn-shop.adafruit.com/1200x900/4064-03.jpg)
+*   or an equivalent microcontroller that has 24+ pinouts (if you don't want the "special" button or audio; in which case 26+).
+*   Disclaimer: My childish friend who is allowing me to retro fit his foosball table said the only way I could do this is if I had audio and a fart button, so... the option is yours. You can just leave those pinouts disconnected, you don't have to delete any code to make it functional.
 
-*   (1) Any size breadboard, but I used a [half-size breadboard](https://www.adafruit.com/product/64)
 
-*   (1) [64x32 RGB LED Matrix - 5mm pitch](https://www.adafruit.com/product/2277). LED Matrix
-    *   (1) You'll also need an [Adafruit RGB Matrix Shield for Arduino](https://www.adafruit.com/product/2601), a [5V 2A (2000mA) switching power supply - UL Listed](https://www.adafruit.com/product/276), and a [Female DC Power adapter - 2.1mm jack to screw terminal block](https://www.adafruit.com/product/368) for your LED Matrix
 
-*   (4-6) [FSR Model 408 (200mm length)](https://buyinterlinkelectronics.com/collections/new-standard-force-sensors/products/fsr-model-408-200mm-length) or [FSR Model 408 (100mm length)](https://buyinterlinkelectronics.com/collections/new-standard-force-sensors/products/copy-of-fsr-model-408-100mm-length). You will have to measure the width of your goal to determine which length sensor you'll need. 2-3 sensors will line the back of each goal.
-    *   Note: These sensors can be cut to size. However, they should not be cut less than 5mm from the connector. 
 
-*   (4-6) [FSR Model 406](https://buyinterlinkelectronics.com/collections/new-standard-force-sensors/products/fsr-model-406). I say 4-6, because it really depends on how your goal is designed. I put 2 of these sensors on the bottom inner lining of each goal as a fail safe, in case the above sensors don't register a goal. The 3rd I put inside the ball slot (where the ball goes after a goal). When a goal is detected, the ball slot sensor tells the program it is kickoff time again. An LED button is also there as backup.
-    *   If the ball is in the ball slot and the LED button is lit, then the ball slot sensor wasn't triggered to tell the program it is ready for kickoff again. In which case you will need to either hit the ball slot sensor, or press the button.
+### (1) [Half-Size Breadboard](https://www.adafruit.com/product/64)
+![Half-Size Breadboard](https://cdn-shop.adafruit.com/1200x900/64-02.jpg)
+*   Any size breadboard will do
 
-*   (2) [Arcade Button with LED - 30mm Translucent Red](https://www.adafruit.com/product/3489). This is used as a ready button for both Home(Player 1) and Away(Player 2) Teams. Before initiating the game (kickoff), both buttons will flash until pressed. Once both are pressed, then you can start playing. This button also acts as a backup kickoff indicator after each goal. **See above**
 
-*   (2) [16mm Panel Mount Momentary Pushbutton - Black](https://www.adafruit.com/product/1505). These are the increment(next)/decrement(back) buttons. Used for cycling through menus and editing score/time/best_of/high_score/goal_ratio/etc.
+### (1) [64x32 RGB LED Matrix - 5mm pitch](https://www.adafruit.com/product/2277)
+![64x32 RGB LED Matrix](https://cdn-shop.adafruit.com/970x728/2278-01.jpg)
+*   (1) You'll also need an [Adafruit RGB Matrix Shield for Arduino](https://www.adafruit.com/product/2601), a [5V 2A (2000mA) switching power supply - UL Listed](https://www.adafruit.com/product/276), and a [Female DC Power adapter - 2.1mm jack to screw terminal block](https://www.adafruit.com/product/368) for your LED Matrix
 
-*   (1) [16mm Panel Mount Momentary Pushbutton - Green](https://www.adafruit.com/product/1504). Enter(select) button.
 
-*   (1) [16mm Panel Mount Momentary Pushbutton - Yellow](https://www.adafruit.com/product/1502). Edit button.
+### (4-6) [FSR Model 408 (200mm length)](https://buyinterlinkelectronics.com/collections/new-standard-force-sensors/products/fsr-model-408-200mm-length) or [FSR Model 408 (100mm length)](https://buyinterlinkelectronics.com/collections/new-standard-force-sensors/products/copy-of-fsr-model-408-100mm-length)
+![FSR Model 408](https://cdn-shop.adafruit.com/970x728/1071-03.jpg)
+*   You will have to measure the width of your goal to determine which length sensor you'll need. 2-3 sensors will line the back of each goal.
+*   Note: These sensors can be cut to size. However, they should not be cut less than 5mm from the connector. 
 
-*   (1) [16mm Panel Mount Momentary Pushbutton - Red](https://www.adafruit.com/product/1445). Reset(back) button.
+### (4-6) [FSR Model 406](https://buyinterlinkelectronics.com/collections/new-standard-force-sensors/products/fsr-model-406)
+![FSR Model 406](https://cdn-shop.adafruit.com/970x728/1075-01.jpg)
+*   I say 4-6, because it really depends on how your goal is designed. I put 2 of these sensors on the bottom inner lining of each goal as a fail safe, in case the above sensors don't register a goal. The 3rd I put inside the ball slot (where the ball goes after a goal). When a goal is detected, the ball slot sensor tells the program it is kickoff time again. An LED button is also there as backup.
+*   If the ball is in the ball slot and the LED button is lit, then the ball slot sensor wasn't triggered to tell the program it is ready for kickoff again. In which case you will need to either hit the ball slot sensor, or press the button.
+
+### (2) [Arcade Button with LED - 30mm Translucent Red](https://www.adafruit.com/product/3489)
+![Arcade Button w/ LED](https://cdn-shop.adafruit.com/970x728/3489-00.jpg)
+*   This is used as a ready button for both Home(Player 1) and Away(Player 2) Teams. Before initiating the game (kickoff), both buttons will flash until pressed. Once both are pressed, then you can start playing. This button also acts as a backup kickoff indicator after each goal. **See above**
+
+### (2) [16mm Panel Mount Momentary Pushbutton - Black](https://www.adafruit.com/product/1505)
+![Momentary Button - Black](https://cdn-shop.adafruit.com/970x728/1505-00.jpg)
+*   These are the increment(next)/decrement(back) buttons. Used for cycling through menus and editing score/time/best_of/high_score/goal_ratio/etc.
+
+### (1) [16mm Panel Mount Momentary Pushbutton - Green](https://www.adafruit.com/product/1504)
+![Momentary Button - Green](https://cdn-shop.adafruit.com/970x728/1504-00.jpg)
+*   Enter(select) button.
+
+### (1) [16mm Panel Mount Momentary Pushbutton - Yellow](https://www.adafruit.com/product/1502)
+![Momentary Button - Yellow](https://cdn-shop.adafruit.com/970x728/1502-00.jpg)
+*   Edit button.
+
+### (1) [16mm Panel Mount Momentary Pushbutton - Red](https://www.adafruit.com/product/1445)
+![Momentary Button - Red](https://cdn-shop.adafruit.com/970x728/1445-00.jpg)
+*   Reset(back) button.
 
 *   (1) [19mm Brown Waterproof Momentary Type Stainless Steel Metal Push Button Switch High Flush](https://www.amazon.com/gp/product/B013ZDOI5G/ref=ppx_yo_dt_b_asin_title_o02_s00?ie=UTF8&psc=1). Fart button (not necessary)
 
-### **Audio Parts**
-*   (1) [Gikfun Upgraded USB Mini Amplifier Electronic Transparent Stereo Speaker Box Sound Amplifier DIY Kit for Arduino](https://www.amazon.com/gp/product/B07GP9MLS8/ref=ppx_yo_dt_b_asin_title_o08_s00?ie=UTF8&psc=1). Speakers
+## **Audio Parts**
+### (1) [Gikfun Upgraded USB Mini Amplifier Electronic Transparent Stereo Speaker Box Sound Amplifier DIY Kit for Arduino](https://www.amazon.com/gp/product/B07GP9MLS8/ref=ppx_yo_dt_b_asin_title_o08_s00?ie=UTF8&psc=1)
+![Stereo Speaker](https://images-na.ssl-images-amazon.com/images/I/51H%2BjQCfS5L._AC_.jpg)
 
-*   (1) [Stereo 3.7W Class D Audio Amplifier - MAX98306](https://www.adafruit.com/product/987)
+### (1) [Stereo 3.7W Class D Audio Amplifier - MAX98306](https://www.adafruit.com/product/987)
+![Class D Amplifier](https://cdn-shop.adafruit.com/970x728/987-00.jpg)
 
-*   (1) [Panel Mount Right Angle 10K Linear Potentiometer w/On-Off Switch - 10K Linear w/ Switch](https://www.adafruit.com/product/3395). You can get any potentiometer you'd like. I just like this one because it mounts flat on the breadboard and it's more manageable when soldering the wires and making the connections.
+### (1) [Panel Mount Right Angle 10K Linear Potentiometer w/On-Off Switch - 10K Linear w/ Switch](https://www.adafruit.com/product/3395)
+![10K Linear Potentiometer](https://cdn-shop.adafruit.com/970x728/3395-01.jpg)
+*   You can get any potentiometer you'd like. I just like this one because it mounts flat on the breadboard and it's more manageable when soldering the wires and making the connections.
 
 ## **References**
 [Adafruit Grand Central M4 Express](https://learn.adafruit.com/adafruit-grand-central/overview)

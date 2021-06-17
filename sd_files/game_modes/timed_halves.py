@@ -1,6 +1,7 @@
 from screens.display_message import build_display_message, display_flash_message # noqa
 from helpers.increment import inc
 from helpers.decrement import dec
+from helpers.goal import timed_goal
 from screens.timed_halves_screen import build_timed_halves_score_screen, initialize_timed_halves_screen, build_timer_screen # noqa
 from screens.edit_screen import build_timed_edit_screen
 import board
